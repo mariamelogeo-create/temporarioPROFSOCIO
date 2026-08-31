@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acesso restrito — PROFSOCIO</title>
+<style>
+  :root{--green:#00422f;--green2:#0a5f47;--bg:#f5f7f6;--text:#1f2d28;--muted:#6a7772;}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#eef4f1,#f8faf9);font-family:Arial,Helvetica,sans-serif;color:var(--text);padding:24px}
+  .card{width:min(430px,100%);background:#fff;border:1px solid #dfe7e3;border-radius:18px;box-shadow:0 16px 50px rgba(0,66,47,.12);padding:34px}
+  .brand{font-weight:700;color:var(--green);font-size:22px;line-height:1.25;margin-bottom:8px}
+  .sub{color:var(--muted);font-size:14px;margin-bottom:26px}
+  label{display:block;font-weight:700;font-size:14px;margin:14px 0 7px}
+  input{width:100%;padding:12px 13px;border:1px solid #cbd8d2;border-radius:10px;font-size:15px;outline:none}
+  input:focus{border-color:var(--green2);box-shadow:0 0 0 3px rgba(10,95,71,.10)}
+  button{width:100%;margin-top:20px;padding:12px;border:0;border-radius:10px;background:var(--green);color:#fff;font-weight:700;font-size:15px;cursor:pointer}
+  button:hover{background:var(--green2)}
+  .msg{min-height:20px;margin-top:12px;color:#a52a2a;font-size:13px;text-align:center}
+  .note{margin-top:18px;font-size:12px;line-height:1.45;color:#7a8581;text-align:center}
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="brand">Mestrado Profissional de Sociologia em Rede Nacional — PROFSOCIO</div>
+    <div class="sub">Acesso restrito ao painel</div>
+
+    <form id="loginForm" autocomplete="off">
+      <label for="usuario">Usuário</label>
+      <input id="usuario" name="usuario" type="text" autocomplete="username" required>
+
+      <label for="senha">Senha</label>
+      <input id="senha" name="senha" type="password" autocomplete="current-password" required>
+
+      <button type="submit">Entrar</button>
+      <div class="msg" id="msg" aria-live="polite"></div>
+    </form>
+
+    <div class="note">Área destinada à visualização do painel PROFSOCIO.</div>
+  </main>
+
+<script>
+(function(){
+  const USER = 'painelprofsocio';
+  const PASS = 'profsocio2027';
+  const DEST = 'painel-profsocio-2027.html';
+  const KEY = 'profsocio_auth_ok';
+
+  if (sessionStorage.getItem(KEY) === '1') {
+    window.location.replace(DEST);
+    return;
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const u = document.getElementById('usuario').value.trim();
+    const s = document.getElementById('senha').value;
+    if (u === USER && s === PASS) {
+      sessionStorage.setItem(KEY,'1');
+      window.location.href = DEST;
+    } else {
+      document.getElementById('msg').textContent = 'Usuário ou senha incorretos.';
+    }
+  });
+})();
+</script>
+</body>
+</html>
